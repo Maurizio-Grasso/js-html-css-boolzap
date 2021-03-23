@@ -30,15 +30,16 @@
 
                 <section class="settings-outer user-nav-bar container-fluid flex-container padding-standard">
 
-                        <div class="user-box">
-                            avatar + name
+                        <div class="user-box flex-container">
+                            <img src="img/avatar_io.jpg" alt="logged user avatar" class="avatar">
+                            <span class="logged-user-name text-black">Nome Utente</span>
                         </div>
 
                         <nav class="icon-list-container">
                             <ul class="inline-list">
-                                <li>item</li>
-                                <li>item</li>
-                                <li>item</li>
+                                <li class="margin-r-standard"><i class="fas fa-circle-notch"></i></li>
+                                <li class="margin-r-standard"><i class="fas fa-comment-alt"></i></li>
+                                <li class="margin-r-standard"><i class="fas fa-ellipsis-v"></i></li>
                             </ul>
                         </nav>
 
@@ -47,8 +48,12 @@
                 <section class="notification-outer container-fluid padding-standard">
                     
                     <div class="notifications-bar">
-                        notifications
+                        
+                        <i class="fas fa-bell-slash"></i>
+                        <span>Ricevi notifiche di nuovi messaggi</span><br>
+                        <a href="">attiva notifiche desktop</a>
                     </div>
+
                 </section>  <!-- Notification END -->
 
                 <section class="search-outer container-fluid padding-standard">
@@ -62,8 +67,8 @@
                         <ul class="contacts-list">
 
                             <li v-for="(contact , index) in contacts" class="single-contact padding-standard">
-                                <img :src="'img/avatar' + contact.avatar + '.jpg'" :alt="contact.name" class="contact-avatar margin-l-standard margin-r-standard">
-                                <span class="contact-name">{{contact.name}}</span>
+                                <img :src="'img/avatar' + contact.avatar + '.jpg'" :alt="contact.name" class="avatar margin-l-standard margin-r-standard">
+                                <span class="contact-name text-black">{{contact.name}}</span>
                             </li>
                             <!-- 
                                 Populated by Javascript 
@@ -78,34 +83,48 @@
 
                 <section class="active-contact-info user-nav-bar container-fluid flex-container padding-standard">
 
-                    <div class="user-box">
-                        avatar + name
+                    <div class="user-box flex-container">
+                        <img src="img/avatar_1.jpg" alt="" class="avatar">
+                        <div>
+                            
+                            <span class="text-black">Michele</span><br>
+                            <span style="font-size: 70%; line-height: 1rem;">Ultimo accesso:</span>
+
+                        </div>
                     </div>
 
                     <nav class="icon-list-container">
                         <ul class="inline-list">
-                            <li>item</li>
-                            <li>item</li>
-                            <li>item</li>
+                            <li class="margin-r-standard"><i class="fas fa-search"></i></li>
+                            <li class="margin-r-standard"><i class="fas fa-paperclip"></i></li>
+                            <li class="margin-r-standard"><i class="fas fa-ellipsis-v"></i></li>
                         </ul>
                     </nav>
 
                 </section> <!-- Active Contact Bar END -->
 
                 <section class="chat-area container-fluid">
-                    
-                    <!-- 
-                        Populated by Javascript 
-                    -->
-                    <ul class="message-list">
 
-                        <li v-for="(message) in contacts[0].messages" :class="message.status" class="single-message"> {{message.text}}</li>
+                    <div class="inner-chat-area clearfix">
+                        
+                        <!-- 
+                            Populated by Javascript 
+                        -->
+                        <ul class="message-list">
 
-                    </ul>
+                            <li 
+                            v-for="(message) in contacts[0].messages" 
+                            :class="message.status" 
+                            class="single-message-box padding-more margin-b-standard set-relative">
+                            <span class="single-message-text text-black">{{message.text}}</span>
+                            <span class="single-message-date">{{message.date}}</span>
+                            </li>
 
+                        </ul>
+                    </div>
                 </section> <!-- Chat Area END -->
 
-                <section class="new-message-bar flex-container container-fluid padding-standard text-center">
+                <section class="new-message-bar flex-container container-fluid padding-standard text-center text-black">
 
                     <div class="emoticon-button">
                         <i class="far fa-smile"></i>

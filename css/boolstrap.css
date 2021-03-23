@@ -177,6 +177,7 @@ Utilities
 
 .text-primary { color: var(--color-primary); }
 .text-white { color: white; }
+.text-black { color: black; }
 
 .inline-list li { display: inline-block; }
 

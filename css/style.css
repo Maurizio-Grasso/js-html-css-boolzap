@@ -1,10 +1,13 @@
 :root {
     --standard-section-height : 7rem;
+    --gray-medium : #b1b1b1;
+
 }
 
 body {
     font-size: 2rem;
-    color: #6b7376;
+    line-height: 2.5rem;
+    color: var(--gray-medium);
     font-family : 'Segoe UI', 'Helvetica Neue', Helvetica, sans-serif;
     background-image: linear-gradient(to bottom, #009688 10vh, #dadbd3 10vh);
 }
@@ -21,7 +24,7 @@ L A Y O U T
 */
 
 .outer-wrapper {
-    max-width: 1200px;
+    max-width: 1540px;
     height: 100vh;
 }
 
@@ -38,8 +41,8 @@ L A Y O U T
     float:left;
 }
 
-.header {    width: 30%; }
-.main {      width: 70%; }
+.header {    width: 35%; }
+.main {      width: 65%; }
 
 /*
 #################
@@ -52,7 +55,15 @@ U T I L I T I E S
     justify-content: space-between;
 
     background-color: #eaeaea;
-    border: 1px dashed gray;    /* debug */    
+}
+
+.user-box img.avatar {
+    width: 5rem;
+    margin: 0 2rem 0 1.5rem;
+}
+
+img.avatar {
+    border-radius: 50%;
 }
 
 /*
@@ -75,11 +86,21 @@ H E A D E R
     overflow-y: scroll;
 }
 
+/* settings section */
+
+.settings-outer {
+    border-right: 1px solid var(--gray-medium);
+}
+
 /* contacts section */
 
-.contacts-list img.contact-avatar {
-    width: 80px;
-    border-radius: 50%;
+li.single-contact:hover {
+    background-color: var(--gray-medium);
+    cursor: pointer;
+}
+
+.contacts-section-outer img.avatar {
+    width: 60px;
 }
 
 .contacts-list span.contact-name {
@@ -92,10 +113,21 @@ M A I N
 #######
 */
 
+/* Contact Info (main top) */
+
 .main.flex-container > .active-contact-info ,
 .main.flex-container > .new-message-bar {
     flex: 0 0 var(--standard-section-height);
+}
+
+.main.flex-container > .active-contact-info {
     background-color: #eaeaea;
+}
+
+/*  Chat Area (main center) */
+
+.inner-chat-area {
+    padding: 5vh 5vw;
 }
 
 .main.flex-container > .chat-area {
@@ -104,15 +136,43 @@ M A I N
     background-image: url('../img/mine.jpg');
 }
 
+.single-message-box {
+    min-width: 320px;
+    max-width: 620px;
+    clear: both;
+    border-radius: 1rem;
+}
+
+.single-message-box.sent {
+    background-color: #d5f9ba;
+    float: right;
+}
+
+.single-message-box.received {
+    background-color: #ffffff;
+    float: left;
+}
+
+.single-message-box span.single-message-date{
+    position: absolute;
+    bottom: .5rem;
+    right: .5rem;
+    font-size: 1.1rem;
+    line-height: 1.1rem;
+    opacity: 0.7;
+}
+
 /*  New Message Bar (main bottom) */
 
 .new-message-bar.flex-container {
     justify-content: space-between;
+    background-color: #f3eeea;
 }
 
 .new-message-bar > .emoticon-button ,
 .new-message-bar > .audio-message-outer {
     flex: 0 0 var(--standard-section-height);
+    opacity: .75;
 }
 
 .new-message-bar > .input-area-outer {
