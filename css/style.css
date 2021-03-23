@@ -1,7 +1,17 @@
+:root {
+    --standard-section-height : 7rem;
+}
+
 body {
-    font-size: 1.6rem;
+    font-size: 2rem;
+    color: #6b7376;
     font-family : 'Segoe UI', 'Helvetica Neue', Helvetica, sans-serif;
     background-image: linear-gradient(to bottom, #009688 10vh, #dadbd3 10vh);
+}
+
+input {
+    outline: none;
+    border: none;
 }
 
 /*
@@ -28,12 +38,21 @@ L A Y O U T
     float:left;
 }
 
-.header {
-    width: 30%;
-}
+.header {    width: 30%; }
+.main {      width: 70%; }
 
-.main {
-    width: 70%;
+/*
+#################
+U T I L I T I E S
+#################
+*/
+
+.user-nav-bar.flex-container {
+    flex: 0 0 var(--standard-section-height);
+    justify-content: space-between;
+
+    background-color: #eaeaea;
+    border: 1px dashed gray;    /* debug */    
 }
 
 /*
@@ -42,14 +61,29 @@ H E A D E R
 ###########
 */
 
-.header.flex-container > .user-bar-outer ,
-.header.flex-container > .contacts-section-outer {
-    flex-grow: 1;
+.header.flex-container > .notification-outer  {
+    flex: 0 0 8rem ;
+    background-color: #8edafc;
 }
 
-.user-bar-outer > .user-bar-nav {
-    height: 5rem;
-    background-color: #eaeaea;
+.header.flex-container > .search-outer {
+    flex: 0 0 5rem ;
+}
+
+.header.flex-container > .contacts-section-outer {
+    flex: 1 0 auto;
+    overflow-y: scroll;
+}
+
+/* contacts section */
+
+.contacts-list img.contact-avatar {
+    width: 80px;
+    border-radius: 50%;
+}
+
+.contacts-list span.contact-name {
+    vertical-align: top;    
 }
 
 /*
@@ -60,7 +94,7 @@ M A I N
 
 .main.flex-container > .active-contact-info ,
 .main.flex-container > .new-message-bar {
-    flex: 0 0 5rem;
+    flex: 0 0 var(--standard-section-height);
     background-color: #eaeaea;
 }
 
@@ -68,4 +102,26 @@ M A I N
     flex: 1 0 auto;
     overflow-y: scroll;
     background-image: url('../img/mine.jpg');
+}
+
+/*  New Message Bar (main bottom) */
+
+.new-message-bar.flex-container {
+    justify-content: space-between;
+}
+
+.new-message-bar > .emoticon-button ,
+.new-message-bar > .audio-message-outer {
+    flex: 0 0 var(--standard-section-height);
+}
+
+.new-message-bar > .input-area-outer {
+    flex: 1 0 auto;
+}
+
+.new-message-bar > .input-area-outer input {
+    width: 100%;
+    line-height: 5rem;
+    padding: 0 1em;
+    border-radius: .5rem;
 }

@@ -28,56 +28,105 @@
             
             <header class="header flex-container bg-white">    <!-- All content on left side -->
 
-                <section class="user-bar-outer container-fluid">
-                    <nav class="user-bar-nav">
-                        <ul class="user-bar-list inline-list">
-                            <li>item</li>
-                            <li>item</li>
-                            <li>item</li>
-                            <li>item</li>
-                            <li>item</li>
-                        </ul>
-                    </nav>
+                <section class="settings-outer user-nav-bar container-fluid flex-container padding-standard">
+
+                        <div class="user-box">
+                            avatar + name
+                        </div>
+
+                        <nav class="icon-list-container">
+                            <ul class="inline-list">
+                                <li>item</li>
+                                <li>item</li>
+                                <li>item</li>
+                            </ul>
+                        </nav>
+
+                </section>  <!-- Settings END -->
+
+                <section class="notification-outer container-fluid padding-standard">
+                    
                     <div class="notifications-bar">
                         notifications
                     </div>
+                </section>  <!-- Notification END -->
 
+                <section class="search-outer container-fluid padding-standard">
                     <div class="search-bar">
                         search
                     </div>
                 </section>
 
                 <section class="contacts-section-outer container-fluid">
-                    <nav class="contacts-nav">
+                    <nav>
                         <ul class="contacts-list">
-                            <li class="single-contact">
-                                contact name v-for
-                            </li>   
+
+                            <li v-for="(contact , index) in contacts" class="single-contact padding-standard">
+                                <img :src="'img/avatar' + contact.avatar + '.jpg'" :alt="contact.name" class="contact-avatar margin-l-standard margin-r-standard">
+                                <span class="contact-name">{{contact.name}}</span>
+                            </li>
+                            <!-- 
+                                Populated by Javascript 
+                                                        -->
                         </ul>
                     </nav>
-                </section>
+                </section> <!-- Contacts END-->
 
             </header>
 
             <main class="main flex-container">  <!-- All content on right side -->
 
-                <section class="active-contact-info container-fluid">
-                    active contact info
-                </section>
+                <section class="active-contact-info user-nav-bar container-fluid flex-container padding-standard">
+
+                    <div class="user-box">
+                        avatar + name
+                    </div>
+
+                    <nav class="icon-list-container">
+                        <ul class="inline-list">
+                            <li>item</li>
+                            <li>item</li>
+                            <li>item</li>
+                        </ul>
+                    </nav>
+
+                </section> <!-- Active Contact Bar END -->
 
                 <section class="chat-area container-fluid">
-                    chat area
-                </section>
+                    
+                    <!-- 
+                        Populated by Javascript 
+                    -->
+                    <ul class="message-list">
 
-                <section class="new-message-bar container-fluid">
-                    new message bar
-                </section>
+                        <li v-for="(message) in contacts[0].messages" :class="message.status" class="single-message"> {{message.text}}</li>
+
+                    </ul>
+
+                </section> <!-- Chat Area END -->
+
+                <section class="new-message-bar flex-container container-fluid padding-standard text-center">
+
+                    <div class="emoticon-button">
+                        <i class="far fa-smile"></i>
+                    </div>
+
+                    <div class="input-area-outer">
+                        <input type="text" placeholder="Scrivi un messaggio">
+                    </div>
+
+                    <div class="audio-message-outer">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+
+                </section> <!-- New Message Area END -->
 
             </main>
 
-        </div>
+        </div> <!-- Root END -->
 
-    </div>
+    </div> <!-- Outer Wrapper END -->
+
     <!-- MyJS -->
     <script src="js/main.js"></script>
 </body>
