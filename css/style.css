@@ -1,0 +1,71 @@
+body {
+    font-size: 1.6rem;
+    font-family : 'Segoe UI', 'Helvetica Neue', Helvetica, sans-serif;
+    background-image: linear-gradient(to bottom, #009688 10vh, #dadbd3 10vh);
+}
+
+/*
+###########
+L A Y O U T
+###########
+*/
+
+.outer-wrapper {
+    max-width: 1200px;
+    height: 100vh;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+.main.flex-container ,
+.header.flex-container {
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    float:left;
+}
+
+.header {
+    width: 30%;
+}
+
+.main {
+    width: 70%;
+}
+
+/*
+###########
+H E A D E R
+###########
+*/
+
+.header.flex-container > .user-bar-outer ,
+.header.flex-container > .contacts-section-outer {
+    flex-grow: 1;
+}
+
+.user-bar-outer > .user-bar-nav {
+    height: 5rem;
+    background-color: #eaeaea;
+}
+
+/*
+#######
+M A I N
+#######
+*/
+
+.main.flex-container > .active-contact-info ,
+.main.flex-container > .new-message-bar {
+    flex: 0 0 5rem;
+    background-color: #eaeaea;
+}
+
+.main.flex-container > .chat-area {
+    flex: 1 0 auto;
+    overflow-y: scroll;
+    background-image: url('../img/mine.jpg');
+}
