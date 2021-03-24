@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Google Font Lato -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet"> 
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 
@@ -22,7 +26,7 @@
 
 <body>
     
-    <div class="outer-wrapper flex-container padding-t-more padding-b-more">
+    <div class="outer-wrapper flex-container">
 
         <div id="root" class="clearfix">
             
@@ -30,9 +34,17 @@
 
                 <section class="settings-outer user-nav-bar container-fluid flex-container padding-standard">
 
-                        <div class="user-box flex-container">
-                            <img src="img/avatar_io.jpg" alt="logged user avatar" class="avatar">
-                            <span class="logged-user-name text-black">Nome Utente</span>
+                        <div class="profile-box flex-container">
+                            <div class="box-image-outer">
+                                
+                                <img :src="'img/avatar' + loggedUser.avatar + '.jpg'" 
+                                     :alt="loggedUser.name" 
+                                      class="user-avatar">
+
+                            </div>
+                            <div class="box-text-outer padding-standard">
+                                <span class="logged-user-name text-black">{{loggedUser.name}}</span>
+                            </div>
                         </div>
 
                         <nav class="icon-list-container">
@@ -47,28 +59,56 @@
 
                 <section class="notification-outer container-fluid padding-standard">
                     
-                    <div class="notifications-bar">
+                    
+                    <div class="notifications-bar flex-container">
                         
-                        <i class="fas fa-bell-slash"></i>
-                        <span>Ricevi notifiche di nuovi messaggi</span><br>
-                        <a href="">attiva notifiche desktop</a>
-                    </div>
+                        <div class="box-image-outer bg-white text-center">
+                            <i class="fas fa-bell-slash"></i>
+                        </div>
+
+                        <div class="box-text-outer padding-standard">
+                            <div class="text-black">Ricevi notifiche di nuovi messaggi</div>
+                            <span>Attiva notifiche desktop</span>
+                        </div>
+
+                    </div><!-- Notification-bar END -->
 
                 </section>  <!-- Notification END -->
 
                 <section class="search-outer container-fluid padding-standard">
-                    <div class="search-bar">
-                        search
-                    </div>
-                </section>
+
+                    <div class="search-inner profile-box flex-container bg-white text-center">
+
+                        <label class="box-image-outer" for="header-search-input">
+                            <i class="fas fa-search"></i>
+                        </label>
+
+                        <div class="box-text-outer">
+                            <input type="text" id="header-search-input" class="padding-l-standard" placeholder="Cerca o inizia una nuova chat">
+                        </div>
+
+                    </div>  <!-- Search Inner END -->
+                </section>  <!-- Search END -->
 
                 <section class="contacts-section-outer container-fluid">
                     <nav>
                         <ul class="contacts-list">
 
-                            <li v-for="(contact , index) in contacts" class="single-contact padding-standard">
-                                <img :src="'img/avatar' + contact.avatar + '.jpg'" :alt="contact.name" class="avatar margin-l-standard margin-r-standard">
-                                <span class="contact-name text-black">{{contact.name}}</span>
+                            <li v-for="(contact , index) in contacts" 
+                                class="single-contact profile-box flex-container padding-standard"
+                                :class="{active:currentContact == index}"
+                                @click="setCurrentContact(index)">
+                                
+                                <div class="box-image-outer">
+                                    <img :src="'img/avatar' + contact.avatar + '.jpg'" 
+                                         :alt="contact.name"
+                                          class="user-avatar">
+                                </div>
+                                
+                                <div class="box-text-outer padding-standard">
+                                    <span class="contact-name text-black">{{contact.name}}</span>
+                                </div>
+
                             </li>
                             <!-- 
                                 Populated by Javascript 
@@ -83,15 +123,20 @@
 
                 <section class="active-contact-info user-nav-bar container-fluid flex-container padding-standard">
 
-                    <div class="user-box flex-container">
-                        <img src="img/avatar_1.jpg" alt="" class="avatar">
-                        <div>
+                    <div class="profile-box flex-container">
+                        <div class="box-image-outer">
+                            <img  class="user-avatar"
+                                 :src="'img/avatar' + contacts[currentContact].avatar + '.jpg'" 
+                                 :alt="contacts[currentContact].name">
+                        </div>
+                        
+                        <div class="box-text-outer padding-standard">
                             
-                            <span class="text-black">Michele</span><br>
-                            <span style="font-size: 70%; line-height: 1rem;">Ultimo accesso:</span>
+                            <div class="text-black">{{contacts[currentContact].name}}</div>
+                            <div clasS="text-smaller">Ultimo accesso:</div>
 
                         </div>
-                    </div>
+                    </div><!-- Profile Box (main top) END -->
 
                     <nav class="icon-list-container">
                         <ul class="inline-list">
@@ -113,7 +158,7 @@
                         <ul class="message-list">
 
                             <li 
-                            v-for="(message) in contacts[0].messages" 
+                            v-for="(message) in contacts[currentContact].messages" 
                             :class="message.status" 
                             class="single-message-box padding-more margin-b-standard set-relative">
                             <span class="single-message-text text-black">{{message.text}}</span>
