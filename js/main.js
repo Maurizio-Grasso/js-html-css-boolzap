@@ -6,11 +6,15 @@ var app = new Vue ({
     data : {
 
         currentContact : 0 ,
+        newMessage : '' ,
+        userQuery : '' ,
 
         loggedUser : {
             name: 'Maurizio',
             avatar: '_io'
         } ,
+
+        visibleUsers : 0 ,
 
         contacts : [
             {
@@ -95,15 +99,109 @@ var app = new Vue ({
                         status: 'received'
                     }
                 ],
-            },
-        ]
-        
+            }
+        ] ,
     } , // data
 
+    created : function() {
+        this.visibleCount();
+        this.closeMenu();
+        
+     } ,
+
     methods : {
+
+        removeMessage(message) {
+            message.text = 'Questo messaggio è stato eliminato';
+            this.closeMenu();
+        } ,
+
+        closeMenu() {
+            
+            this.contacts.forEach( contact => {
+
+                contact.messages.forEach( message => {
+                    message.text += ' ';
+                    // Accrocchio: Nella riga sopra ho dovuto modificare (senza alcun senso) il DOM.
+                    // Altrimenti, pur cambiando la variabile menuOpen (riga sotto) non viene assegnata dinamicamente la classe corrispondente!
+                    message.menuOpen = false;
+                });
+    
+            } );    
+        } ,
+
+        openMenu(contact , message) {
+            this.closeMenu();
+            this.contacts[contact].messages[message].text += ' ';   
+            // Accrocchio: Nella riga sopra ho dovuto modificare (senza alcun senso) il DOM. Vedi descrizione sopra, nel metodo closeMenu()
+            this.contacts[contact].messages[message].menuOpen = true;
+        } ,
+
+        setVisibility() {
+            this.contacts.forEach( (contact) => {
+                if( contact.name.toLowerCase().search(this.userQuery.toLowerCase()) == -1 ) contact.visible = false;
+                else contact.visible = true;
+            });
+
+            this.visibleCount();
+        } ,
+        
+        visibleCount() {        
+            this.visibleUsers = this.contacts.length;
+            
+            this.contacts.forEach( (contact) => {
+                if(!contact.visible) {
+                    this.visibleUsers --;
+                }
+            });
+        } ,
+
         setCurrentContact(contact) {
             this.currentContact = contact;
+        } , 
+
+        sendNewMessage() {
+
+            if(this.newMessage != '') {
+
+                this.contacts[this.currentContact].messages.push({
+                    date : this.getDate() ,
+                    text : this.newMessage ,
+                    status : 'sent'
+                });
+
+                this.newMessage = '';
+                setTimeout( function() {app.getNewMessage()} , 1000);   
+                // Accrocchio: this.getNewMessage() dà errore. 
+                // Con 'app' al posto di 'this' funziona. (Perché?)
+            }
+        } , 
+
+        getDate() {
+            var date = new Date;
+
+            return +
+            this.normalizeDate( date.getDate()    ) + '/' + 
+            this.normalizeDate((date.getMonth()+1)) + '/' + 
+            this.normalizeDate( date.getFullYear()) + ' ' + 
+            this.normalizeDate( date.getHours()   ) + ':' +
+            this.normalizeDate( date.getMinutes() ) + ':' +       
+            this.normalizeDate( date.getSeconds() );
+        } ,
+
+        normalizeDate(myString) {
+                myString = String(myString);
+                if(myString.length == 1) myString = '0' + myString;
+                return myString;
+        } ,
+
+        getNewMessage() {
+                this.contacts[this.currentContact].messages.push({
+                    date : this.getDate() ,
+                    text : 'OK' ,
+                    status : 'received'
+                });
         }
-    }
+    }   // methods
 
     });

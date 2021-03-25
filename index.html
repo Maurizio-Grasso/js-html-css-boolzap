@@ -8,7 +8,7 @@
 
     <!-- Google Font Lato -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
@@ -25,20 +25,20 @@
 </head>
 
 <body>
-    
+
     <div class="outer-wrapper flex-container">
 
         <div id="root" class="clearfix">
-            
+
             <header class="header flex-container bg-white">    <!-- All content on left side -->
 
                 <section class="settings-outer user-nav-bar container-fluid flex-container padding-standard">
 
                         <div class="profile-box flex-container">
                             <div class="box-image-outer">
-                                
-                                <img :src="'img/avatar' + loggedUser.avatar + '.jpg'" 
-                                     :alt="loggedUser.name" 
+
+                                <img :src="'img/avatar' + loggedUser.avatar + '.jpg'"
+                                     :alt="loggedUser.name"
                                       class="user-avatar">
 
                             </div>
@@ -58,10 +58,10 @@
                 </section>  <!-- Settings END -->
 
                 <section class="notification-outer container-fluid padding-standard">
-                    
-                    
+
+
                     <div class="notifications-bar flex-container">
-                        
+
                         <div class="box-image-outer bg-white text-center">
                             <i class="fas fa-bell-slash"></i>
                         </div>
@@ -84,7 +84,13 @@
                         </label>
 
                         <div class="box-text-outer">
-                            <input type="text" id="header-search-input" class="padding-l-standard" placeholder="Cerca o inizia una nuova chat">
+                            <input
+                                v-model="userQuery"
+                                @keyup="setVisibility()"
+                                type="text"
+                                id="header-search-input"
+                                class="padding-l-standard"
+                                placeholder="Cerca o inizia una nuova chat">
                         </div>
 
                     </div>  <!-- Search Inner END -->
@@ -92,28 +98,31 @@
 
                 <section class="contacts-section-outer container-fluid">
                     <nav>
-                        <ul class="contacts-list">
+                        <ul v-if="visibleUsers != 0" class="contacts-list">
 
-                            <li v-for="(contact , index) in contacts" 
+                            <li v-for="(contact , index) in contacts"
+                                v-if="contact.visible"
                                 class="single-contact profile-box flex-container padding-standard"
-                                :class="{active:currentContact == index}"
+                                :class="currentContact == index ? 'active' : null"
                                 @click="setCurrentContact(index)">
-                                
+
                                 <div class="box-image-outer">
-                                    <img :src="'img/avatar' + contact.avatar + '.jpg'" 
+                                    <img :src="'img/avatar' + contact.avatar + '.jpg'"
                                          :alt="contact.name"
                                           class="user-avatar">
                                 </div>
-                                
+
                                 <div class="box-text-outer padding-standard">
                                     <span class="contact-name text-black">{{contact.name}}</span>
                                 </div>
 
                             </li>
-                            <!-- 
-                                Populated by Javascript 
-                                                        -->
+                            
+                            <!--
+                                Populated by Javascript
+                            -->
                         </ul>
+                        <div v-else class="padding-standard">Nessun contatto trovato</div>
                     </nav>
                 </section> <!-- Contacts END-->
 
@@ -126,12 +135,12 @@
                     <div class="profile-box flex-container">
                         <div class="box-image-outer">
                             <img  class="user-avatar"
-                                 :src="'img/avatar' + contacts[currentContact].avatar + '.jpg'" 
+                                 :src="'img/avatar' + contacts[currentContact].avatar + '.jpg'"
                                  :alt="contacts[currentContact].name">
                         </div>
-                        
+
                         <div class="box-text-outer padding-standard">
-                            
+
                             <div class="text-black">{{contacts[currentContact].name}}</div>
                             <div clasS="text-smaller">Ultimo accesso:</div>
 
@@ -148,21 +157,32 @@
 
                 </section> <!-- Active Contact Bar END -->
 
-                <section class="chat-area container-fluid">
+                <section class="chat-area container-fluid" @click.stop="closeMenu()">
 
                     <div class="inner-chat-area clearfix">
-                        
-                        <!-- 
-                            Populated by Javascript 
+
+                        <!--
+                            Populated by Javascript
                         -->
-                        <ul class="message-list">
+                        <ul class="message-list"  >
 
                             <li 
-                            v-for="(message) in contacts[currentContact].messages" 
-                            :class="message.status" 
+                            v-for="(message, index) in contacts[currentContact].messages"
+                            :class="message.status"
                             class="single-message-box padding-more margin-b-standard set-relative">
-                            <span class="single-message-text text-black">{{message.text}}</span>
-                            <span class="single-message-date">{{message.date}}</span>
+
+                                <span class="single-message-text text-black">{{message.text}}</span>
+                                <span class="single-message-date">{{message.date}}</span>
+                                <div class="single-message-menu-button">
+                                    <i v-if="message.menuOpen == false" @click.stop="openMenu(currentContact , index)" class="fas fa-chevron-down"></i>
+                                    <i v-else @click.stop="closeMenu()" class="fas fa-times"></i>
+                                    
+                                    <ul class="single-message-toggle-menu"
+                                    :class="message.menuOpen == true ? 'active' : null ">
+                                        <li class="padding-standard">Message Info</li>
+                                        <li @click.stop="removeMessage(message)" class="padding-standard">Delete Message</li>
+                                    </ul>
+                                </div>
                             </li>
 
                         </ul>
@@ -176,7 +196,11 @@
                     </div>
 
                     <div class="input-area-outer">
-                        <input type="text" placeholder="Scrivi un messaggio">
+                        <input
+                            v-model="newMessage"
+                            type="text"
+                            placeholder="Scrivi un messaggio"
+                            @keyup.13="sendNewMessage()">
                     </div>
 
                     <div class="audio-message-outer">
