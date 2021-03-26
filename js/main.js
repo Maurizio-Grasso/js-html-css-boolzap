@@ -6,6 +6,7 @@ var app = new Vue ({
     data : {
 
         currentContact : 0 ,
+        visibleUsers : 0 ,
         newMessage : '' ,
         userQuery : '' ,
 
@@ -13,8 +14,6 @@ var app = new Vue ({
             name: 'Maurizio',
             avatar: '_io'
         } ,
-
-        visibleUsers : 0 ,
 
         contacts : [
             {
@@ -101,54 +100,34 @@ var app = new Vue ({
                 ],
             }
         ] ,
+
+        activeMessage : {
+            index    : false ,
+            showMenu : false
+        }
+
     } , // data
 
     created : function() {
         this.visibleCount();
-        this.closeMenu();
-        
+        this.stringToArray();
      } ,
 
     methods : {
+        
+        // Metodi che vengono invocati alla creazione
 
-        removeMessage(message) {
-            message.text = 'Questo messaggio è stato eliminato';
-            this.closeMenu();
-        } ,
-
-        closeMenu() {
-            
+        stringToArray() {
             this.contacts.forEach( contact => {
-
                 contact.messages.forEach( message => {
-                    message.text += ' ';
-                    // Accrocchio: Nella riga sopra ho dovuto modificare (senza alcun senso) il DOM.
-                    // Altrimenti, pur cambiando la variabile menuOpen (riga sotto) non viene assegnata dinamicamente la classe corrispondente!
-                    message.menuOpen = false;
+                    message.status = [message.status];
                 });
-    
-            } );    
-        } ,
-
-        openMenu(contact , message) {
-            this.closeMenu();
-            this.contacts[contact].messages[message].text += ' ';   
-            // Accrocchio: Nella riga sopra ho dovuto modificare (senza alcun senso) il DOM. Vedi descrizione sopra, nel metodo closeMenu()
-            this.contacts[contact].messages[message].menuOpen = true;
-        } ,
-
-        setVisibility() {
-            this.contacts.forEach( (contact) => {
-                if( contact.name.toLowerCase().search(this.userQuery.toLowerCase()) == -1 ) contact.visible = false;
-                else contact.visible = true;
             });
-
-            this.visibleCount();
         } ,
         
-        visibleCount() {        
+        visibleCount() {
             this.visibleUsers = this.contacts.length;
-            
+
             this.contacts.forEach( (contact) => {
                 if(!contact.visible) {
                     this.visibleUsers --;
@@ -156,36 +135,74 @@ var app = new Vue ({
             });
         } ,
 
+        // Metodi riguardanti la gestione del menu a tendina del messaggio
+
+        openMenu(index) {
+            this.activeMessage.index = index;
+            this.activeMessage.showMenu = true;
+        } ,
+        
+        closeMenu() {
+            this.activeMessage.index = false;
+            this.activeMessage.showMenu = false;
+        } ,
+        
+        // Metodi riguardanti visualizzazione ed attivazione dei contatti
+
         setCurrentContact(contact) {
             this.currentContact = contact;
-        } , 
+        } ,
 
-        sendNewMessage() {
+        setVisibility() {
+            this.contacts.forEach( (contact) => {
+                if( contact.name.toLowerCase().search(this.userQuery.toLowerCase()) == -1 ) contact.visible = false;
+                else contact.visible = true;
+            });
+            
+            this.visibleCount();
+        } ,       
+        
+        // Metodi riguardanti l'invio e la ricezione di nuovi messaggi
 
+        sendNewMessage() {            
             if(this.newMessage != '') {
-
+                
                 this.contacts[this.currentContact].messages.push({
                     date : this.getDate() ,
                     text : this.newMessage ,
-                    status : 'sent'
+                    status : ['sent']
                 });
-
+                
                 this.newMessage = '';
-                setTimeout( function() {app.getNewMessage()} , 1000);   
-                // Accrocchio: this.getNewMessage() dà errore. 
-                // Con 'app' al posto di 'this' funziona. (Perché?)
+                this.getNewMessage('Ok');
             }
-        } , 
+        } ,
+                
+        getNewMessage(messageContent) {
+            setTimeout(() => {
+                this.contacts[this.currentContact].messages.push({
+                    date : this.getDate() ,
+                    text : messageContent ,
+                    status : ['received']
+                });
+            }, 1000);
+        } ,
+        
+        removeMessage(message) {
+            message.status.push('removed');
+            message.text="<em>Questo Messaggio è stato eliminato</em>";
+        } ,
+
+        // Metodi riguardanti la gestione della data e dell'orario
 
         getDate() {
             var date = new Date;
-
             return +
-            this.normalizeDate( date.getDate()    ) + '/' + 
-            this.normalizeDate((date.getMonth()+1)) + '/' + 
-            this.normalizeDate( date.getFullYear()) + ' ' + 
+            this.normalizeDate( date.getDate()    ) + '/' +
+            this.normalizeDate((date.getMonth()+1)) + '/' +
+            this.normalizeDate( date.getFullYear()) + ' ' +
             this.normalizeDate( date.getHours()   ) + ':' +
-            this.normalizeDate( date.getMinutes() ) + ':' +       
+            this.normalizeDate( date.getMinutes() ) + ':' +
             this.normalizeDate( date.getSeconds() );
         } ,
 
@@ -193,14 +210,6 @@ var app = new Vue ({
                 myString = String(myString);
                 if(myString.length == 1) myString = '0' + myString;
                 return myString;
-        } ,
-
-        getNewMessage() {
-                this.contacts[this.currentContact].messages.push({
-                    date : this.getDate() ,
-                    text : 'OK' ,
-                    status : 'received'
-                });
         }
     }   // methods
 

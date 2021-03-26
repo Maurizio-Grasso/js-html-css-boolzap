@@ -8,7 +8,7 @@
 
     <!-- Google Font Lato -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
@@ -102,7 +102,7 @@
 
                             <li v-for="(contact , index) in contacts"
                                 v-if="contact.visible"
-                                class="single-contact profile-box flex-container padding-standard"
+                                class="single-contact profile-box flex-container padding-standard cursor-pointer"
                                 :class="currentContact == index ? 'active' : null"
                                 @click="setCurrentContact(index)">
 
@@ -112,12 +112,14 @@
                                           class="user-avatar">
                                 </div>
 
-                                <div class="box-text-outer padding-standard">
-                                    <span class="contact-name text-black">{{contact.name}}</span>
+                                <div class="box-text-outer margin-l-standard">
+                                    <div class="contact-name text-black">{{contact.name}}</div>
+                                    <div class="contact-additional-info" v-html="contact.messages[contact.messages.length -1].text"></div>
+
                                 </div>
 
                             </li>
-                            
+
                             <!--
                                 Populated by Javascript
                             -->
@@ -157,35 +159,56 @@
 
                 </section> <!-- Active Contact Bar END -->
 
-                <section class="chat-area container-fluid" @click.stop="closeMenu()">
+                <section class="chat-area container-fluid" @click.stop="activeMessage.showMenu = false">
 
                     <div class="inner-chat-area clearfix">
 
                         <!--
                             Populated by Javascript
                         -->
-                        <ul class="message-list"  >
+                        
+                        <ul class="message-list">
 
-                            <li 
-                            v-for="(message, index) in contacts[currentContact].messages"
-                            :class="message.status"
-                            class="single-message-box padding-more margin-b-standard set-relative">
+                            <li v-for="(message, index) in contacts[currentContact].messages"
+                                :class="message.status[0]"
+                                class="single-message-box padding-more margin-b-standard set-relative">
 
-                                <span class="single-message-text text-black">{{message.text}}</span>
+                                <span 
+                                    class="single-message-text" 
+                                    :class="message.status.length == 1 ? 'text-black' : null" 
+                                    v-html="message.text"> 
+                                </span>
+
                                 <span class="single-message-date">{{message.date}}</span>
-                                <div class="single-message-menu-button">
-                                    <i v-if="message.menuOpen == false" @click.stop="openMenu(currentContact , index)" class="fas fa-chevron-down"></i>
-                                    <i v-else @click.stop="closeMenu()" class="fas fa-times"></i>
-                                    
-                                    <ul class="single-message-toggle-menu"
-                                    :class="message.menuOpen == true ? 'active' : null ">
-                                        <li class="padding-standard">Message Info</li>
-                                        <li @click.stop="removeMessage(message)" class="padding-standard">Delete Message</li>
-                                    </ul>
-                                </div>
-                            </li>
 
-                        </ul>
+                                <div class="single-message-menu-button">
+
+                                    <i v-if="(activeMessage.showMenu && activeMessage.index == index)"
+                                       @click.stop="activeMessage.showMenu = false"
+                                       class="fas fa-times cursor-pointer">
+                                    </i><!-- Close Icon -->
+
+                                    <i  v-else
+                                        @click.stop="openMenu(index)"
+                                        class="fas fa-chevron-down cursor-pointer">
+                                    </i><!-- Chevron Down Icon -->
+
+                                    <ul
+                                        v-if="(activeMessage.showMenu && activeMessage.index == index)"
+                                        class="single-message-toggle-menu text-black">
+
+                                            <li class="padding-standard">Message Info</li>
+
+                                            <li       
+                                                @click="removeMessage(message)"                                         
+                                                class="padding-standard cursor-pointer">Delete Message
+                                            </li>
+
+                                    </ul>   <!-- Toggle Menu END -->
+                                </div>
+                            </li> <!-- Single Message END-->
+
+                        </ul><!-- Message List END -->
                     </div>
                 </section> <!-- Chat Area END -->
 

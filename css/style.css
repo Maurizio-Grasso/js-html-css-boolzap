@@ -1,13 +1,14 @@
 :root {
     --standard-section-height : 7rem;
-    --gray-medium : #919191;
+    --gray-dark : #919191;
+    --gray-medium : #c4c4c4;
     --gray-light : #eaeaea;
 }
 
 body {
     font-size: 1.6rem;
     line-height: 2rem;
-    color: var(--gray-medium);
+    color: var(--gray-dark);
     font-family: 'Lato', sans-serif;
 }
 
@@ -83,6 +84,11 @@ U T I L I T I E S
     border-radius: 50%;
 }
 
+.profile-box .box-text-outer .contact-additional-info {
+    white-space: nowrap;
+}
+
+
 .user-nav-bar.flex-container .box-image-outer {
     padding: 0 .5rem;   /* to align with content below */
 }
@@ -99,10 +105,14 @@ U T I L I T I E S
     line-height: 1em;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 /* settings section */
 
 .settings-outer {
-    border-right: 1px solid var(--gray-medium);
+    border-right: 1px solid var(--gray-dark);
 }
 
 /* notifications section */
@@ -151,7 +161,6 @@ li.single-contact {
 
 li.single-contact:hover {
     background-color: var(--gray-light);
-    cursor: pointer;
 }
 
 li.single-contact.active {
@@ -183,6 +192,7 @@ M A I N
 .single-message-box {
     min-width: 320px;
     max-width: 620px;
+    word-break: break-all;
     clear: both;
     border-radius: 1rem;
 }
@@ -208,18 +218,13 @@ M A I N
 
 .single-message-box .single-message-menu-button i {
     position: absolute;
-
     top: .5rem;
     right: 1rem;
     opacity: 0.7;
-    cursor: pointer;
 }
 
 .single-message-box .single-message-toggle-menu {
-    display: none;
-}
-.single-message-box .single-message-toggle-menu.active {
-    display: block;
+    
     position: absolute;
     z-index: 2;
     top: 2.5rem;
