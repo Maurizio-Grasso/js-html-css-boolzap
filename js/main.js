@@ -198,14 +198,14 @@ var app = new Vue ({
         getDate() {
             var date = new Date;
             return +
-            this.normalizeDate( date.getDate()    ) + '/' +
-            this.normalizeDate((date.getMonth()+1)) + '/' +
-            this.normalizeDate( date.getFullYear()) + ' ' +
-            this.normalizeDate( date.getHours()   ) + ':' +
-            this.normalizeDate( date.getMinutes() ) + ':' +
-            this.normalizeDate( date.getSeconds() );
+                this.normalizeDate( date.getDate()    ) + '/' +
+                this.normalizeDate((date.getMonth()+1)) + '/' +
+                this.normalizeDate( date.getFullYear()) + ' ' +
+                this.normalizeDate( date.getHours()   ) + ':' +
+                this.normalizeDate( date.getMinutes() ) + ':' +
+                this.normalizeDate( date.getSeconds() );
         } ,
-
+        
         normalizeDate(myString) {
                 myString = String(myString);
                 if(myString.length == 1) myString = '0' + myString;

@@ -89,7 +89,7 @@
                                 @keyup="setVisibility()"
                                 type="text"
                                 id="header-search-input"
-                                class="padding-l-standard"
+                                class="padding-standard container-fluid"
                                 placeholder="Cerca o inizia una nuova chat">
                         </div>
 
@@ -113,10 +113,17 @@
                                 </div>
 
                                 <div class="box-text-outer margin-l-standard">
-                                    <div class="contact-name text-black">{{contact.name}}</div>
-                                    <div class="contact-additional-info" v-html="contact.messages[contact.messages.length -1].text"></div>
-
+                                    <div class="contact-name text-black float-left">{{contact.name}}</div>
+                                    <div class="date-and-time float-right text-smaller">{{contact.messages[contact.messages.length -1].date.slice(0,10)}}</div>
+                                    <div style="clear: both;" class="contact-additional-info">
+                                        <span 
+                                            v-if="contact.messages[contact.messages.length - 1].status == 'sent'"
+                                            class="double-check-icon margin-r-standard">
+                                            <i class="fas fa-check-double"></i>
+                                        </span> 
+                                    <span v-html="contact.messages[contact.messages.length -1].text"></span></div>
                                 </div>
+
 
                             </li>
 
@@ -144,7 +151,7 @@
                         <div class="box-text-outer padding-standard">
 
                             <div class="text-black">{{contacts[currentContact].name}}</div>
-                            <div clasS="text-smaller">Ultimo accesso:</div>
+                            <div clasS="text-smaller">Ultimo accesso: {{contacts[currentContact].messages[contacts[currentContact].messages.length -1].date}}</div>
 
                         </div>
                     </div><!-- Profile Box (main top) END -->
@@ -166,7 +173,7 @@
                         <!--
                             Populated by Javascript
                         -->
-                        
+
                         <ul class="message-list">
 
                             <li v-for="(message, index) in contacts[currentContact].messages"

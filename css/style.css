@@ -84,10 +84,17 @@ U T I L I T I E S
     border-radius: 50%;
 }
 
+.box-text-outer {
+    flex-grow: 1;
+}
+
+.user-nav-bar .box-text-outer {
+    line-height: 1em;
+}
+
 .profile-box .box-text-outer .contact-additional-info {
     white-space: nowrap;
 }
-
 
 .user-nav-bar.flex-container .box-image-outer {
     padding: 0 .5rem;   /* to align with content below */
@@ -96,13 +103,17 @@ U T I L I T I E S
     width: 5rem;
 }
 
-.user-nav-bar .box-text-outer {
-    line-height: 1em;
-}
-
 .text-smaller {
     font-size: .8em;
     line-height: 1em;
+}
+
+.float-left {
+    float:left
+}
+
+.float-right {
+    float:right
 }
 
 .cursor-pointer {
@@ -169,6 +180,16 @@ li.single-contact.active {
 
 .contacts-section-outer img.user-avatar {
     width: 6rem;
+}
+
+.contacts-section-outer .contact-additional-info {
+    max-width: 250px;
+    overflow: hidden;
+}
+
+.double-check-icon i {
+    transform: scaleY(0.75);
+    color: #4fc3f7;
 }
 
 /*
