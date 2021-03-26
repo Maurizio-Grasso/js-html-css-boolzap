@@ -123,6 +123,10 @@ Positioning
     transform: translate(-50% , -50%);
 }
 
+.float-left { float:left;   }
+
+.float-right { float:right; }
+
 /*
 ##########
 Typography
@@ -172,6 +176,8 @@ Utilities
 .text-left {    text-align: left; }
 .text-right {    text-align: right; }
 
+.text-smaller {    font-size: .85em; }
+
 .text-uppercase { text-transform: uppercase;}
 .text-capitalized { text-transform: capitalize;}
 
@@ -179,7 +185,6 @@ Utilities
 .text-white { color: white; }
 .text-black { color: black; }
 
-.inline-list li { display: inline-block; }
 
 .btn {
     padding: var(--spacing-standard) calc(var(--spacing-standard) * 2 ) var(--spacing-standard);
@@ -196,3 +201,7 @@ Utilities
     color: white;
     background-color: var(--color-primary);
 }
+
+.inline-list li { display: inline-block; }
+
+.cursor-pointer { cursor: pointer;}

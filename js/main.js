@@ -4,7 +4,7 @@ var app = new Vue ({
     el : '#root' ,
 
     data : {
-
+        userIsTyping : false ,
         currentContact : 0 ,
         visibleUsers : 0 ,
         newMessage : '' ,
@@ -21,6 +21,7 @@ var app = new Vue ({
                 avatar: '_1',
                 visible: true,
                 messages: [
+                    
                     {
                         date: '10/01/2020 15:30:55',
                         text: 'Hai portato a spasso il cane?',
@@ -36,6 +37,7 @@ var app = new Vue ({
                         text: 'Tutto fatto!',
                         status: 'received'
                     }
+
                 ],
             },
             {
@@ -108,9 +110,14 @@ var app = new Vue ({
 
     } , // data
 
-    created : function() {
+    created() {
         this.visibleCount();
         this.stringToArray();
+     } ,
+
+    mounted() {
+        this.scrollToEnd();
+
      } ,
 
     methods : {
@@ -151,6 +158,7 @@ var app = new Vue ({
 
         setCurrentContact(contact) {
             this.currentContact = contact;
+            this.$nextTick( () => { this.scrollToEnd(); });
         } ,
 
         setVisibility() {
@@ -173,24 +181,43 @@ var app = new Vue ({
                     status : ['sent']
                 });
                 
+                this.userIsTyping = true;
                 this.newMessage = '';
                 this.getNewMessage('Ok');
             }
+            
+            this.$nextTick( () => { this.scrollToEnd(); });
         } ,
                 
         getNewMessage(messageContent) {
+
             setTimeout(() => {
-                this.contacts[this.currentContact].messages.push({
+            
+                this.contacts[this.currentContact].messages.push(
+                    {
                     date : this.getDate() ,
                     text : messageContent ,
                     status : ['received']
-                });
+                }
+                );
+                this.userIsTyping = false;
+                this.$nextTick( () => { this.scrollToEnd(); });
             }, 1000);
+            
+            
         } ,
         
         removeMessage(message) {
             message.status.push('removed');
             message.text="<em>Questo Messaggio è stato eliminato</em>";
+        } ,
+
+        scrollToEnd() {
+
+            let lastMsg = document.getElementsByClassName('single-message-box');            
+            lastMsg = lastMsg[lastMsg.length -1 ];            
+            lastMsg.scrollIntoView();
+
         } ,
 
         // Metodi riguardanti la gestione della data e dell'orario

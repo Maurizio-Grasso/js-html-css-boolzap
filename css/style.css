@@ -75,6 +75,7 @@ U T I L I T I E S
     justify-content: flex-start;
 }
 
+
 .box-image-outer {
     flex-shrink: 0;
 }
@@ -88,11 +89,7 @@ U T I L I T I E S
     flex-grow: 1;
 }
 
-.user-nav-bar .box-text-outer {
-    line-height: 1em;
-}
-
-.profile-box .box-text-outer .contact-additional-info {
+.box-text-outer .contact-additional-info {
     white-space: nowrap;
 }
 
@@ -101,23 +98,6 @@ U T I L I T I E S
 }
 .user-nav-bar.flex-container .box-image-outer img {
     width: 5rem;
-}
-
-.text-smaller {
-    font-size: .8em;
-    line-height: 1em;
-}
-
-.float-left {
-    float:left
-}
-
-.float-right {
-    float:right
-}
-
-.cursor-pointer {
-    cursor: pointer;
 }
 
 /* settings section */
@@ -233,9 +213,13 @@ M A I N
     bottom: .5rem;
     right: 1rem;
     opacity: 0.7;
-    font-size: .6em;
-    line-height: .8em;
 }
+
+.single-message-date.text-smaller {
+    font-size: .65em;
+    line-height: .8em;    
+}
+
 
 .single-message-box .single-message-menu-button i {
     position: absolute;
@@ -268,7 +252,7 @@ M A I N
 }
 
 .new-message-bar > .emoticon-button ,
-.new-message-bar > .audio-message-outer {
+.new-message-bar > .send-message-outer {
     flex: 0 0 var(--standard-section-height);
     font-size: 1.5em;
     opacity: .75;
@@ -283,4 +267,8 @@ M A I N
     line-height: 5rem;
     padding: 0 1em;
     border-radius: .5rem;
+}
+
+.fas.fa-paper-plane {
+    color: #009688;
 }

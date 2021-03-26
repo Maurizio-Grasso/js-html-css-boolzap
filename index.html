@@ -42,7 +42,7 @@
                                       class="user-avatar">
 
                             </div>
-                            <div class="box-text-outer padding-standard">
+                            <div class="box-text-outer margin-l-standard">
                                 <span class="logged-user-name text-black">{{loggedUser.name}}</span>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
 
                     <div class="notifications-bar flex-container">
 
-                        <div class="box-image-outer bg-white text-center">
+                        <div class="box-image-outer bg-white text-center cursor-pointer">
                             <i class="fas fa-bell-slash"></i>
                         </div>
 
@@ -148,10 +148,13 @@
                                  :alt="contacts[currentContact].name">
                         </div>
 
-                        <div class="box-text-outer padding-standard">
+                        <div class="box-text-outer margin-l-standard">
 
                             <div class="text-black">{{contacts[currentContact].name}}</div>
-                            <div clasS="text-smaller">Ultimo accesso: {{contacts[currentContact].messages[contacts[currentContact].messages.length -1].date}}</div>
+                            <div class="text-smaller">
+                                <span v-if="userIsTyping">Sta scrivendo qualcosa...</span>
+                                <span v-else >Ultimo accesso: {{contacts[currentContact].messages[contacts[currentContact].messages.length -1].date}}</span>
+                            </div>
 
                         </div>
                     </div><!-- Profile Box (main top) END -->
@@ -186,7 +189,7 @@
                                     v-html="message.text"> 
                                 </span>
 
-                                <span class="single-message-date">{{message.date}}</span>
+                                <span class="single-message-date text-smaller">{{message.date}}</span>
 
                                 <div class="single-message-menu-button">
 
@@ -233,8 +236,12 @@
                             @keyup.13="sendNewMessage()">
                     </div>
 
-                    <div class="audio-message-outer">
-                        <i class="fas fa-microphone"></i>
+                    <div class="send-message-outer">
+                        <i  v-if="newMessage !=''" 
+                            @click="sendNewMessage()" 
+                            class="fas fa-paper-plane cursor-pointer">
+                        </i>
+                        <i v-else class="fas fa-microphone"></i>
                     </div>
 
                 </section> <!-- New Message Area END -->
