@@ -144,6 +144,7 @@ section.search-outer {
 .header.flex-container > .contacts-section-outer {
     flex: 1 1 auto;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 li.single-contact {
